@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 exports.sign_up_get = asyncHandler(async(req, res, next) => {
-    res.send("NOT IMPLEMENTED: get sign up form");
+    res.render("sign_up", { title: "Sign Up" });
 })
 
 exports.sign_up_post = [
@@ -12,12 +12,39 @@ exports.sign_up_post = [
     body("lastName", "Last name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("email", "Email must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("password", "Password must not be empty.").trim().isLength({ min: 1 }).escape(),
-    body("Confirm password", "Confirm password must not be empty.").trim().isLength({ min: 1 }).escape()
-    .custom((value, { req }) => {
+    body("confirmPassword")
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage("Please confirm your password.")
+    .bail()
+    .custom( (value, {req}) => {
+        // Check if confirm password === password
         if (value !== req.body.password) {
-            throw new Error("Passwords do not match.");
+            return false;
         }
-        return true;
-    }),
-    
+        else {
+            return true;
+        }
+    })
+    .withMessage("Passwords must match."),
+
+    asyncHandler(async(req, res, next) => {
+        const errors = validationResult(req);
+        const user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: req.body.password
+        })
+
+        if (!errors.isEmpty()) {
+            res.render("sign_up", { title: "Sign Up", user: user, error_list: errors.array() });
+            return;
+        } else {
+            await user.save();
+            res.redirect(user.url);
+        }
+    })
+
 ]
