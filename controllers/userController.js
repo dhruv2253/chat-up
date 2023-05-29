@@ -1,9 +1,10 @@
 const User = require('../models/user');
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
 exports.sign_up_get = asyncHandler(async(req, res, next) => {
-    res.render("sign_up", { title: "Sign Up" });
+    res.render("sign-up", { title: "Sign Up" });
 })
 
 exports.sign_up_post = [
@@ -31,22 +32,40 @@ exports.sign_up_post = [
 
     asyncHandler(async(req, res, next) => {
         const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            res.render("sign-up", { title: "Sign Up", user: req.body, error_list: errors.array() });
+            return;
+        } 
+        // There are no errors
+        foundUser = await User.findOne({username: req.body.username})
+        // If username is in use
+        if (foundUser) {
+            const errorsArray = errors.array();
+            usernameTakenError = new Error("Username is already in use. Please choose another.");
+            usernameTakenError.msg = "Username is already in use. Please choose another.";
+            errorsArray.push(usernameTakenError);
+            res.render("sign-up", {title: 'Sign Up', user: req.body, error_list: errorsArray});
+            return;
+        }
+        // Else save the user
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
         const user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password
+            username: req.body.username,
+            password: hashedPassword,
+            membershipStatus: false,
         })
-
-        if (!errors.isEmpty()) {
-            res.render("sign_up", { title: "Sign Up", user: user, error_list: errors.array() });
-            return;
-        } else {
+        try {
             await user.save();
-            res.redirect("/");
+           
+        } catch (err) {
+            return next(err);
         }
+        res.redirect("/");
     })
-
 ]
 
 
