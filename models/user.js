@@ -6,7 +6,7 @@ const userSchema = new Schema({
     lastName: String,
     username: String,
     password: String,
-    membershipStatus: String
+    membershipStatus: Boolean
 });
 
 
