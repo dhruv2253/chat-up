@@ -1,18 +1,21 @@
 extends layout
+
 block content
+  .form-container
     form(action="" method="POST")
-        label(for="firstName") First Name 
-        input(name="firstName" type="text" required='true' value=(undefined===user ? '' : user.firstName))
-        label(for="lastName" ) Last Name
-        input(name="lastName"  type="text" value=(user ? user.lastName : ""))
-        label(for="email") Email
-        input(name="email" type="text" value=(user ? user.email : ""))
-        label(for="password") Password
-        input(name="password" type="password")
-        label(for="confirmPassword") Confirm Password
-        input(name="confirmPassword" type="password")
-        button Sign Up
+      label.form-label(for="firstName") First Name
+      input.form-input(name="firstName" type="text" required='true' value=(undefined===user ? '' : user.firstName))
+      label.form-label(for="lastName") Last Name
+      input.form-input(name="lastName" type="text" value=(user ? user.lastName : ""))
+      label.form-label(for="email") Email
+      input.form-input(name="email" type="text" value=(user ? user.email : ""))
+      label.form-label(for="password") Password
+      input.form-input(name="password" type="password")
+      label.form-label(for="confirmPassword") Confirm Password
+      input.form-input(name="confirmPassword" type="password")
+      button.form-button(type="submit") Sign Up
+
     if error_list
-        ul 
-            each error in error_list 
-                li= error.msg
+      ul.error-list
+        each error in error_list
+          li= error.msg
