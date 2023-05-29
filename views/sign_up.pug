@@ -7,8 +7,8 @@ block content
       input.form-input(name="firstName" type="text" required='true' value=(undefined===user ? '' : user.firstName))
       label.form-label(for="lastName") Last Name
       input.form-input(name="lastName" type="text" value=(user ? user.lastName : ""))
-      label.form-label(for="email") Email
-      input.form-input(name="email" type="text" value=(user ? user.email : ""))
+      label.form-label(for="username") Username
+      input.form-input(name="username" type="username" value=(user ? user.email : ""))
       label.form-label(for="password") Password
       input.form-input(name="password" type="password")
       label.form-label(for="confirmPassword") Confirm Password
