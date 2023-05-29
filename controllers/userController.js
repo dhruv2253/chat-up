@@ -10,7 +10,7 @@ exports.sign_up_post = [
     // Validate and sanitize fields.
     body("firstName", "First name must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("lastName", "Last name must not be empty.").trim().isLength({ min: 1 }).escape(),
-    body("email", "Email must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("username", "Username must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("password", "Password must not be empty.").trim().isLength({ min: 1 }).escape(),
     body("confirmPassword")
     .trim()
@@ -43,8 +43,10 @@ exports.sign_up_post = [
             return;
         } else {
             await user.save();
-            res.redirect(user.url);
+            res.redirect("/");
         }
     })
 
 ]
+
+
