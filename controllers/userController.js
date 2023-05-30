@@ -68,4 +68,33 @@ exports.sign_up_post = [
     })
 ]
 
+exports.log_in_get = asyncHandler(async(req, res, next) => {
+    res.render("log-in", { title: "Log In" });
+})
+
+
+exports.log_in_post = [
+    // Validate and sanitize fields.
+    body("username", "Username must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("password", "Password must not be empty.").trim().isLength({ min: 1 }).escape(),
+    asyncHandler(async(req, res, next) => {
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            res.render("log-in", { title: "Log In", user: req.body, error_list: errors.array() });
+            
+            
+            return;
+        } 
+        // There are no errors
+        passport.authenticate("local", {
+            successRedirect: "/",
+            failureRedirect: "users/log-in",
+
+        })
+    })
+]
+    
+
+
 
