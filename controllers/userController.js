@@ -4,6 +4,10 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+exports.index_get = asyncHandler(async(req, res, next) => {
+    res.render("index", { title: "Home" });
+})
+
 exports.sign_up_get = asyncHandler(async(req, res, next) => {
     res.render("sign-up", { title: "Sign Up" });
 })
@@ -68,6 +72,7 @@ exports.sign_up_post = [
         res.redirect("/");
     })
 ]
+
 
 exports.log_in_get = asyncHandler(async(req, res, next) => {
     res.render("login", { user: req.user});

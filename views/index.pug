@@ -3,10 +3,13 @@ extends layout
 block content
   nav
     ul
-      li
-        a(href="/users/sign-up") Sign Up
-      li
-        a(href="/users/login") Log In
-
-  h2 Welcome to the Website
+      if !currentUser
+        li
+          a(href="/users/sign-up") Sign Up
+        li
+          a(href="/users/login") Log In
+      if currentUser
+        li
+          a(href="/users/logout") Log Out
+  h2 Welcome to the Website, #{currentUser ? currentUser.username : "Guest"}!
   p Thank you for visiting our website. Enjoy your stay!
