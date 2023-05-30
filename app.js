@@ -31,6 +31,7 @@ async function main() {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Set up session
 app.use(session({secret: "hello", resave: false, saveUninitialized: true}));
 
 // Specify local strategy for passport
@@ -61,6 +62,7 @@ passport.use(
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
+// Deserialize user
 passport.deserializeUser(async function(id, done) {
   try {
     const user = await User.findById(id);
@@ -69,8 +71,11 @@ passport.deserializeUser(async function(id, done) {
     done(err);
   };
 });
+// Initialize passport
 app.use(passport.initialize());
+// Initialize passport session
 app.use(passport.session());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -79,6 +84,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Save current user for use in views
 app.use(function(req, res, next) {
+  
   res.locals.currentUser = req.user;
   next();
 });
