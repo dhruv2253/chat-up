@@ -6,7 +6,8 @@ const userSchema = new Schema({
     lastName: String,
     username: String,
     password: String,
-    membershipStatus: Boolean
+    membershipStatus: Boolean,
+    isAdmin: Boolean
 });
 
 
