@@ -40,4 +40,6 @@ router.post('/create-message', messageController.create_message_post);
 
 router.get('/messages', messageController.messages_get);
 
+router.post('/messages/:id/delete', messageController.message_delete_post);
+
 module.exports = router;
