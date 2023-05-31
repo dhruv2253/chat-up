@@ -1,0 +1,14 @@
+extends layout 
+block content
+    if message_list.length > 0
+        ul(class="message-list") 
+            each message in message_list 
+                li
+                    h2= message.title
+                    p= message.text
+                    if currentUser && currentUser.membershipStatus == true
+                        p= message.author.username
+                        p= message.added
+                        
+    else 
+        h2 No messages yet.
