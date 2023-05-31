@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+
 exports.index_get = asyncHandler(async(req, res, next) => {
     res.render("index", { title: "Home" });
 })
