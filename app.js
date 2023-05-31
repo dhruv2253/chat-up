@@ -19,7 +19,7 @@ var app = express();
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.SECRET_KEY;
+const mongoDB = process.env.MONGO_URL;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -32,7 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Set up session
-app.use(session({secret: "hello", resave: false, saveUninitialized: true}));
+app.use(session({secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true}));
 
 // Specify local strategy for passport
 passport.use(
@@ -84,7 +84,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Save current user for use in views
 app.use(function(req, res, next) {
-  
+
   res.locals.currentUser = req.user;
   next();
 });
