@@ -1,5 +1,12 @@
 extends layout 
 block content
+    nav
+        ul
+            li
+                a(href="/users/logout") Log Out
+            li
+                p Signed in as #{currentUser.username}
+    a(href="/users/create-message") Create Message
     if message_list.length > 0
         ul(class="message-list") 
             each message in message_list 
@@ -9,6 +16,9 @@ block content
                     if currentUser && currentUser.membershipStatus == true
                         p= message.author.username
                         p= message.added
+                        if currentUser && currentUser.isAdmin
+                            form(action=`/users/messages/${message._id}/delete` method="POST")
+                                button Delete
                         
     else 
         h2 No messages yet.
