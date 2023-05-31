@@ -92,4 +92,24 @@ exports.log_out_get = asyncHandler(async(req, res, next) => {
       });
 });
 
+exports.membership_get = asyncHandler(async(req,res,next) => {
+    res.render("membership", {title: "Membership"});
+})
 
+exports.membership_post = [
+    // validate and sanitize fields
+    body("memberKey")
+        .trim()
+        .escape(),
+    async (req, res, next) => {
+        // Check if passcode is correct
+        if (req.body.memberKey !== process.env.MEMBER_KEY) {
+            // Incorrect, rerender
+            res.render('membership', {title: 'Member Key', incorrect: true});
+            return;
+        }
+        // Passcode is correct
+        await User.findOneAndUpdate({username: req.user.username}, {membershipStatus: true})
+        res.redirect("/");
+    }
+]
