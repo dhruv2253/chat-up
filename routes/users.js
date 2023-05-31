@@ -27,6 +27,13 @@ router.get('/membership', userController.membership_get);
 // Post membership form
 router.post('/membership', userController.membership_post);
 
+// Get admin form
+router.get('/admin', userController.admin_get);
+
+// Post admin form
+router.post('/admin', userController.admin_post);
+
+
 router.get('/create-message', messageController.create_message_get); 
 
 router.post('/create-message', messageController.create_message_post);
