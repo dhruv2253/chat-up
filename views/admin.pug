@@ -1,0 +1,8 @@
+extends layout 
+block content 
+    form(action="" method="POST")
+        label(for="adminKey") Admin key passcode
+        input(type="password" name="adminKey")
+        button Apply
+    if incorrect 
+        p The admin key is not valid.
