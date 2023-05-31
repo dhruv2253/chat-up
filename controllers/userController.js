@@ -113,3 +113,25 @@ exports.membership_post = [
         res.redirect("/");
     }
 ]
+
+exports.admin_get = asyncHandler(async(req,res,next) => {
+    res.render("admin", {title: "Admin"});
+})
+
+exports.admin_post = [
+    // validate and sanitize fields
+    body("adminKey")
+        .trim()
+        .escape(),
+    async (req, res, next) => {
+        // Check if passcode is correct
+        if (req.body.adminKey !== process.env.MEMBER_KEY) {
+            // Incorrect, rerender
+            res.render('admin', {title: 'Member Key', incorrect: true});
+            return;
+        }
+        // Passcode is correct
+        await User.findOneAndUpdate({username: req.user.username}, {isAdmin: true})
+        res.redirect("/");
+    }
+]
