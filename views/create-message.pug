@@ -1,0 +1,13 @@
+extends layout 
+block content
+    if currentUser
+        form(action="" method="POST")
+            label(for="title") Message Title
+            input(name="title" type="text" value=(messageTitle ? messageTitle : ""))
+            label(for="message") Message 
+            textarea(name="message" value=(messageAttempt ? messageAttempt : ""))
+            button Send
+    if error_list
+        ul
+            each error in error_list 
+                li= error.msg
