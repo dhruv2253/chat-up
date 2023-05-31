@@ -1,0 +1,8 @@
+extends layout 
+block content 
+    form(action="" method="POST")
+        label(for="memberKey") Member key passcode
+        input(type="password" name="memberKey")
+        button Apply
+    if incorrect 
+        p The member key is not valid.

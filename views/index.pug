@@ -12,4 +12,11 @@ block content
         li
           a(href="/users/logout") Log Out
   h2 Welcome to the Website, #{currentUser ? currentUser.username : "Guest"}!
-  p Thank you for visiting our website. Enjoy your stay!
+  if currentUser && currentUser.membershipStatus == false
+    p You are not a member. Enter the code to become a VIP!
+    a(href="/users/membership") VIP Sign Up
+  else if currentUser && currentUser.membershipStatus == true
+    p You are a VIP member. Welcome!
+    // chat goes here
+  else
+    p Please create an account or log in to access the chat.
