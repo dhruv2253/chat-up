@@ -1,3 +1,17 @@
+body {
+  margin: 0;
+}
+
+@media only screen
+  and (device-width: 375px)
+  and (device-height: 812px)
+  and (-webkit-device-pixel-ratio: 3) {
+ 
+  body {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
 
 
 /* Form container */
@@ -75,4 +89,19 @@ p {
   color: #666;
   font-size: 16px;
   margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #b92a2a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.message {
+  list-style-type: none;
+  text-decoration: none;
+  margin: 10px;
 }

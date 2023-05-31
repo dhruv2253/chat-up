@@ -10,15 +10,15 @@ block content
     if message_list.length > 0
         ul(class="message-list") 
             each message in message_list 
-                li
-                    h2= message.title
-                    p= message.text
-                    if currentUser && currentUser.membershipStatus == true
-                        p= message.author.username
+                    li(class="message")
+                        h2= message.title
+                        p= message.text
+                        if currentUser && currentUser.membershipStatus == true
+                            p Posted by: #{message.author.username}
                         p= message.added
-                        if currentUser && currentUser.isAdmin
-                            form(action=`/users/messages/${message._id}/delete` method="POST")
-                                button Delete
+                            if currentUser && currentUser.isAdmin
+                                form(action=`/users/messages/${message._id}/delete` method="POST")
+                                    button Delete
                         
     else 
         h2 No messages yet.
