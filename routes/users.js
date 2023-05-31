@@ -33,13 +33,16 @@ router.get('/admin', userController.admin_get);
 // Post admin form
 router.post('/admin', userController.admin_post);
 
-
+// Get create message form
 router.get('/create-message', messageController.create_message_get); 
 
+// Post create message form
 router.post('/create-message', messageController.create_message_post);
 
+// Get messages
 router.get('/messages', messageController.messages_get);
 
+// Delete message
 router.post('/messages/:id/delete', messageController.message_delete_post);
 
 module.exports = router;
