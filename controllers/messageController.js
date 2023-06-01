@@ -3,6 +3,7 @@ const User = require('../models/user')
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
+// Get list of messages
 exports.messages_get = asyncHandler(async(req, res, next) => {
      // Get all messages
      try {
@@ -15,10 +16,12 @@ exports.messages_get = asyncHandler(async(req, res, next) => {
     }
 })
 
+// Get create message form
 exports.create_message_get = asyncHandler(async(req, res, next) => {
     res.render("create-message", { title: "Create Message" });
 })
 
+// Post create message form
 exports.create_message_post = [
     // Validate and sanitize fields.
     body("title", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
@@ -31,7 +34,7 @@ exports.create_message_post = [
         const messages = await Message.find({}).populate("author");
         res.render("create-message", { title: "Create Message", messageAttempt: req.body.message, messageTitle: req.body.title, error_list: errors.array(), message_list: messages, user: req.user });
       }
-  
+      // If there are no errors
       try {
         const author = await User.findOne({ username: req.user.username });
         const newMessage = new Message({
@@ -40,6 +43,8 @@ exports.create_message_post = [
           added: new Date(),
           author: author
         });
+
+        // Save message
         await newMessage.save();
       } catch (err) {
         return next(err);
@@ -49,8 +54,11 @@ exports.create_message_post = [
   ];
 
 
+// Delete message
 exports.message_delete_post = asyncHandler(async(req, res, next) => {
+  
     try {
+        // Find message by id and remove it
         await Message.findByIdAndRemove(req.params.id);
         console.log("Deleting message", req.params.id);
         res.redirect("/users/messages");
